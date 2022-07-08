@@ -26,14 +26,14 @@ export class Clase1Component implements OnInit {
 
 
   // inicialización de tensores, pesos y bias (utilizamos los datos y los convertimos al formato esperado por TFjs)
-  private tensorEntrada = tf.tensor2d(this.datosEntrada, [4, 2]);
-  private tensorEsperado = tf.tensor2d(this.datosEsperados, [4, 1]);
+  private tensorEntrada = tf.tensor2d(this.datosEntrada, [4, 2]); // count values, count input values
+  private tensorEsperado = tf.tensor2d(this.datosEsperados, [4, 1]);  // count values, count output values
 
 
 
   constructor() { }
 
-  ngOnInit(): void {  }
+  ngOnInit(): void { }
 
 
 
@@ -74,16 +74,6 @@ export class Clase1Component implements OnInit {
       }, regresaCosto);
       await tf.nextFrame();
       this.ciclosDeAprendizaje += 1;
-      // if (i % 100 === 0) {
-      //   let costods = costo.dataSync()
-      //   console.log('Perdida[' + i + ']: ' + costods + '<br>');
-
-      //   this.updateCiclosDeAprendizaje(this.ciclosDeAprendizaje);
-      //   if (costods < 0.6 && this.noHeParadoAntes) {
-      //     this.noHeParadoAntes = false;
-      //     break;
-      //   }
-      // }
     }
     this.updateCiclosDeAprendizaje(this.ciclosDeAprendizaje);
 
@@ -107,7 +97,6 @@ export class Clase1Component implements OnInit {
 
   updateCiclosDeAprendizaje(ciclos: number) {
     console.log("Ciclos de Aprendizaje: " + ciclos);
-
   }
 
 
