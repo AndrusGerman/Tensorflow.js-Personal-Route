@@ -1,0 +1,37 @@
+==Entradas, capas y salidas==
+Las capas se encargan de transformar los datos de entrada para:
+Aprender el patrón de los datos de entrenamiento
+Inferir o predecir un resultado
+Para crear modelos se puede usar:
+Layers API (básico)
+API Core (avanzado)
+
+
+Funciones de activación:
+ReLU (facilita las operaciones matematicas para optimizar costos)
+
+
+
+Softmax: crea una distribución de probabilidades (útil para modelos de clasificación)
+
+con un valo de 0 - 1
+
+
+El modelo expone los componentes:
+layers
+inputLayers
+outputLayers
+
+
+Validación del modelo (Tensorflow.js hace una validación automática de los valores de las capas si se utiliza Layers API)
+
+Ventajas de Layers:
+Inicialización automática de pesos
+Serialización de los modelos
+Monitoreo del entrenamiento
+Portabilidad (a otras plataformas)
+Revisión de seguridad
+
+API Core:
+Brinda mayor control
+Se deben crear manualmente los métodos para serializar, inicializar y validar los parámetros

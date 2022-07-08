@@ -1,0 +1,15 @@
+Antes de entrenar el modelo debemos decidir 3 cosas:
+
+Un optimizador: Que optimizador utilizar?
+Una funcion de perdida: Que funcion de perdida utilizar?
+Una lista de metricas: Cual es la lista de metricas con base a las cuales iremos monitoreando el aprendizaje de nuestro modelo.
+
+
+
+
+
+Lo recomendado es 70% para datos de entrenamiento,
+ 20 % datos de prueba y 10 % evaluación, no puedes 
+ evaluar tu modelo con los mismos datos de entrenamiento, 
+ por que tu predicción estará muy cercana al 100% puede caer 
+ en un problema de sobre Ajuste (Overfiting)

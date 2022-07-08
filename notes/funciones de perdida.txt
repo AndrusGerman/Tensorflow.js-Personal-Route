@@ -1,0 +1,12 @@
+Funciones de pérdida
+Es el objetivo que el modelo intentará minimizar. Su meta es devolver un número que indique “que tan mal” está la predicción del modelo. Este cálculo se realiza para cada “lote” de datos de entrenamiento. Existen algunas funciones predefinidas como “categoricalCrossentropy” o “meanSquaredError”.
+
+🔹 categoricalCrossentropy
+
+Medida de entropía que permite clasificar claramente entre dos categorías
+
+🔹 meanSquaredError
+
+Distancia mínima cuadrada entre los puntos que el modelo está aprendiendo y el punto que se esta prediciendo.
+
+La función de pérdida se irá calculando de manera repetitiva para cada batch de datos y finalmente, el optimizador será el encargado de ir moviendo los parámetros tal que la función de pérdida sea mínima.
