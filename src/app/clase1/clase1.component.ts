@@ -14,9 +14,6 @@ export class Clase1Component implements OnInit {
 
 
 
-
-
-
   private datosEntrada = [[0, 0], [0, 1], [1, 0], [1, 1]];
   private datosEsperados = [[0], [1], [1], [0]];
 
@@ -101,6 +98,20 @@ export class Clase1Component implements OnInit {
 
 
 
+  /**
+   * testCustom
+   */
+  public number1 = 0;
+  public number2 = 0;
+  public async testCustom() {
+
+    let input = tf.tensor2d([[this.number1, this.number2]], [1, 2]);
+    let salida:any = await this.model(input).data();
+    salida = parseFloat((salida)).toFixed(3)
+    console.log(salida);
+  }
+
+
 
   async pruebaXor() {
     var timeStart2 = 0
@@ -108,20 +119,18 @@ export class Clase1Component implements OnInit {
     timeStart2 = performance.now();
     for (let i = 0; i < this.datosEntrada.length; i++) {
 
-      const inputData = tf.tensor2d([this.datosEntrada[i]], [1, 2]);
-      const expectedOutput = tf.tensor1d(this.datosEsperados[i]);
-      const val = this.model(inputData);
-      const myVal = await val.data()
-      let strresult = "( " + this.datosEntrada[i][0] + " , " + this.datosEntrada[i][1] + " )-->" + await parseFloat(<any>(myVal)).toFixed(3) + " (esperado: " + this.datosEsperados[i] + ")<br>";
-      console.log(strresult);
+      let input = tf.tensor2d([this.datosEntrada[i]], [1, 2]);
+      let salida:any = await this.model(input).data();
+      salida = parseFloat((salida)).toFixed(3)
+      
 
+      let strresult = "( " + this.datosEntrada[i][0] + " , " + this.datosEntrada[i][1] + " )-->" + await parseFloat((salida)).toFixed(3) + " (esperado: " + this.datosEsperados[i] + ")<br>";
+      console.log(strresult);
     }
 
     time2 = performance.now() - timeStart2;
     console.log('<br>Duración de la prueba : ' + time2.toFixed(3) + ' millisegundos</br><br>')
     console.log("<br>Error: " + this.calculaCosto(this.tensorEsperado, this.model(this.tensorEntrada)))
-
-
 
   }
 

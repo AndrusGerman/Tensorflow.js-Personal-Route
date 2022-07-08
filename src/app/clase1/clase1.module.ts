@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Clase1Component } from './clase1.component';
 import { RouterModule, Routes } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 
 // Routes
@@ -25,6 +26,7 @@ class Routing {}
   ],
   imports: [
     CommonModule,
+    FormsModule,
     Routing,
   ]
 })
