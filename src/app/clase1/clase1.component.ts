@@ -34,23 +34,18 @@ export class Clase1Component implements OnInit {
 
 
 
+  // A: Number values entry or Number size;
+  // B: Number outputs
+  // tf.variable(tf.randomNormal([A, B]));
+
   // las variables se registran en tensorflow como variables entrenables
-  private pesosCapaUno = tf.variable(this.inicializaPesos([2, this.NUM_NEURONAS_CAPA_OCULTA], 2));
+  private pesosCapaUno = tf.variable(tf.randomNormal([2, this.NUM_NEURONAS_CAPA_OCULTA]));
   private biasCapaUno = tf.variable(tf.scalar(0));
-  private pesosCapaDos = tf.variable(this.inicializaPesos([this.NUM_NEURONAS_CAPA_OCULTA, 1], this.NUM_NEURONAS_CAPA_OCULTA));
+  private pesosCapaDos = tf.variable(tf.randomNormal([this.NUM_NEURONAS_CAPA_OCULTA, 1]));
   private biasCapaDos = tf.variable(tf.scalar(0));
 
 
-  // a: Number values entry or Number size,
-  // b: Number outputs
-  // c: Value for generate random initial value
-  // tf.variable(this.inicializaPesos([a, b], c))
 
-  // inicialización aleatoria de los pesos
-  private inicializaPesos(shape: number[], prevLayerSize: number) {
-    // return tf.randomNormal(shape)
-    return tf.randomNormal(shape).mul(tf.scalar(Math.sqrt(2.0 / prevLayerSize)));
-  }
 
 
   // creamos la función de costo (aunque tf tambíen nos provee de varias)
@@ -81,7 +76,7 @@ export class Clase1Component implements OnInit {
     return costo.dataSync();
   }
 
-  
+
   private training_info(i: number, costo: tf.Scalar) {
     this.ciclosDeAprendizaje += 1;
     // Log 100;
@@ -180,3 +175,18 @@ export class Clase1Component implements OnInit {
   }
 
 }
+
+
+
+
+  // tf.variable(this.inicializaPesos([this.NUM_NEURONAS_CAPA_OCULTA, 1], this.NUM_NEURONAS_CAPA_OCULTA))
+  // a: Number values entry or Number size,
+  // b: Number outputs
+  // c: Value for generate random initial value
+  // tf.variable(this.inicializaPesos([a, b], c))
+
+
+  // inicialización aleatoria de los pesos
+  // private inicializaPesos(shape: number[], prevLayerSize: number) {
+  //   return tf.randomNormal(shape).mul(tf.scalar(Math.sqrt(2.0 / prevLayerSize)));
+  // }
