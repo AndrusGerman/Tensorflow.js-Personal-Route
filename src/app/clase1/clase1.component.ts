@@ -41,11 +41,15 @@ export class Clase1Component implements OnInit {
   private biasCapaDos = tf.variable(tf.scalar(0));
 
 
+  // a: Number values entry or Number size,
+  // b: Number outputs
+  // c: Value for generate random initial value
+  // tf.variable(this.inicializaPesos([a, b], c))
 
   // inicialización aleatoria de los pesos
   private inicializaPesos(shape: number[], prevLayerSize: number) {
+    // return tf.randomNormal(shape)
     return tf.randomNormal(shape).mul(tf.scalar(Math.sqrt(2.0 / prevLayerSize)));
-
   }
 
 
