@@ -1,0 +1,15 @@
+Pasos
+
+Inicializar y cargar modelo
+Podremos usar:
+
+tf.sequential() para crear un nuevo modelo y entrenarlo o
+tf.loadLayersModel() para cargar un modelo pre-entrenado.
+Preparar datos
+Los datos podran obtenerse mediante fetch, de almacenamiento validos segun la plataforma, o bien en el navegador de interfaces con video o imagenes.
+En algunos casos los datos deberan normalizarse o formatearse de acuerdo al formato que el modelo esta esperando (dimensiones especificas o codificaciones en el caso de imagenes).
+Realizar interferencia
+Para esto utilizamos: model.predict()
+Obtener y mapear los resultados
+Recuerda que las predicciones pudieran tener un formato normalizado (si el formato que usaste para entrenar tu red).
+Una vez revertido el proceso de los datos inferidos, despliegalos de acuerdo a tus necesidades.
