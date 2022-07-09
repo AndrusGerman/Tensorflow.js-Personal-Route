@@ -51,7 +51,7 @@ export class Clase1Component implements OnInit {
 
   // creamos la función de costo (aunque tf tambíen nos provee de varias)
   // aquí usamos minimos cuadrados
-  calculaCosto(y: any, output: any) {
+  calculaCosto(y: tf.Tensor2D, output: tf.Tensor<tf.Rank>) {
     return tf.squaredDifference(y, output).sum().sqrt();
   }
 
@@ -59,7 +59,7 @@ export class Clase1Component implements OnInit {
 
   private TASA_DE_APRENDIZAJE = 0.1;
   //stochastic gradient descent with alpha 0.1
-  private optimizador: tf.SGDOptimizer = tf.train.sgd(this.TASA_DE_APRENDIZAJE);;
+  private optimizador: tf.SGDOptimizer = tf.train.sgd(this.TASA_DE_APRENDIZAJE);
 
   async entrena(iteraciones: number) {
     const regresaCosto = true;
@@ -70,11 +70,22 @@ export class Clase1Component implements OnInit {
         return <any>(this.calculaCosto(this.tensorEsperado, this.model(this.tensorEntrada)));
       }, regresaCosto);
       await tf.nextFrame();
-      this.ciclosDeAprendizaje += 1;
+      this.training_info(i, costo);
     }
     this.updateCiclosDeAprendizaje(this.ciclosDeAprendizaje);
 
     return costo.dataSync();
+  }
+
+  
+  private training_info(i: number, costo: tf.Scalar) {
+    this.ciclosDeAprendizaje += 1;
+    // Log 100;
+    if (i % 100 === 0) {
+      let costods: any = costo.dataSync()
+      console.log('Perdida[' + i + ']: ' + costods + '<br>');
+      this.updateCiclosDeAprendizaje(this.ciclosDeAprendizaje);
+    }
   }
 
 
@@ -104,9 +115,8 @@ export class Clase1Component implements OnInit {
   public number1 = 0;
   public number2 = 0;
   public async testCustom() {
-
     let input = tf.tensor2d([[this.number1, this.number2]], [1, 2]);
-    let salida:any = await this.model(input).data();
+    let salida: any = await this.model(input).data();
     salida = parseFloat((salida)).toFixed(3)
     console.log(salida);
   }
@@ -120,9 +130,9 @@ export class Clase1Component implements OnInit {
     for (let i = 0; i < this.datosEntrada.length; i++) {
 
       let input = tf.tensor2d([this.datosEntrada[i]], [1, 2]);
-      let salida:any = await this.model(input).data();
+      let salida: any = await this.model(input).data();
       salida = parseFloat((salida)).toFixed(3)
-      
+
 
       let strresult = "( " + this.datosEntrada[i][0] + " , " + this.datosEntrada[i][1] + " )-->" + await parseFloat((salida)).toFixed(3) + " (esperado: " + this.datosEsperados[i] + ")<br>";
       console.log(strresult);
@@ -156,5 +166,13 @@ export class Clase1Component implements OnInit {
   }
 
 
+
+  /**
+   * saveFile
+   */
+  public saveFile() {
+    // localstorage:// | indexeddb:// | http:// | download:// | file://
+
+  }
 
 }
