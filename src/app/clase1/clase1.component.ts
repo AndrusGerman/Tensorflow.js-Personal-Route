@@ -47,7 +47,6 @@ export class Clase1Component implements OnInit {
 
 
 
-
   // creamos la función de costo (aunque tf tambíen nos provee de varias)
   // aquí usamos minimos cuadrados
   calculaCosto(expectedValues: tf.Tensor2D, modelInput: tf.Tensor<tf.Rank>) {
