@@ -1,4 +1,3 @@
-
 <h1>Linear regresion (2)</h1>
 
 
@@ -6,3 +5,8 @@
 
 
 <button (click)="saveModel()">Save model</button>
+
+
+
+<button *ngIf="!isTraining" (click)="training()">Entrenar</button>
+<button *ngIf="isTraining && !stopTraining" (click)="stopTraining=true">Stop Training</button>

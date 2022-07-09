@@ -34,13 +34,23 @@ export class Clase1Component implements OnInit {
 
 
   private model?: tf.Sequential;
+  private inputNormalize?: tf.Tensor<tf.Rank>;
+  private labelsNormalize?: tf.Tensor<tf.Rank>;
   private async run() {
     const data = await this.getData();
     this.viewData(data);
     this.model = this.createModel();
     const tensorData = this.convertDataToTensors(data);
-    const { inputNormalize, labelsNormalize } = tensorData;
-    this.training_model(this.model, inputNormalize, labelsNormalize);
+    this.inputNormalize = tensorData.inputNormalize;
+    this.labelsNormalize = tensorData.labelsNormalize;
+  }
+
+
+  /**
+   * name
+   */
+  public training() {
+    this.training_model(<any>(this.model), <any>(this.inputNormalize), <any>(this.labelsNormalize));
   }
 
 
@@ -76,33 +86,39 @@ export class Clase1Component implements OnInit {
   private metric = ['mse'];
 
 
+  public stopTraining = false;
+  public isTraining = false;
   private async training_model(model: tf.Sequential, inputs: tf.Tensor<tf.Rank>, labels: tf.Tensor<tf.Rank>) {
     model.compile({
       optimizer: this.optimizer,
       loss: this.losses_func,
       metrics: this.metric,
     });
+    this.isTraining = true;
 
 
     const surface = { name: 'show.history live', tab: 'Training' };
     const sizeBatch = 28; // number register in training
     const epoch = 5; // epoch = vueltas del modelo
-    const history = [];
+    let history: any[] = [];
 
 
-    return await model.fit(inputs, labels, {
+    await model.fit(inputs, labels, {
       epochs: epoch,
       batchSize: sizeBatch,
       shuffle: true,
-      callbacks: tfvis.show.fitCallbacks({ name: 'Training performace', },
-        ['loss', 'mse'],// metricas de perdida | metricas de error estandar
-        { height: 200, callbacks: ['onEpochEnd'] }
-      )
-    }
-    
-    
-    )
-
+      callbacks: {
+        onEpochEnd: (epoch, log) => {
+          history.push(log);
+          tfvis.show.history(surface, history, ['loss', 'mse']);
+          if (this.stopTraining) {
+            (<any>(this.model)).stopTraining = true;
+          }
+        }
+      }
+    })
+    this.isTraining = false;
+    this.stopTraining = false;
   }
 
 
@@ -155,3 +171,8 @@ export class Clase1Component implements OnInit {
   }
 }
 
+
+// tfvis.show.fitCallbacks({ name: 'Training performace', },
+//         ['loss', 'mse'],// metricas de perdida | metricas de error estandar
+//         { height: 200, callbacks: ['onEpochEnd'] }
+//       )
