@@ -50,8 +50,8 @@ export class Clase1Component implements OnInit {
 
   // creamos la función de costo (aunque tf tambíen nos provee de varias)
   // aquí usamos minimos cuadrados
-  calculaCosto(y: tf.Tensor2D, output: tf.Tensor<tf.Rank>) {
-    return tf.squaredDifference(y, output).sum().sqrt();
+  calculaCosto(expectedValues: tf.Tensor2D, modelInput: tf.Tensor<tf.Rank>) {
+    return tf.squaredDifference(expectedValues, modelInput).sum().sqrt();
   }
 
 
@@ -64,7 +64,7 @@ export class Clase1Component implements OnInit {
     const regresaCosto = true;
     let costo: any;
     for (let i = 0; i < iteraciones; i++) {
-
+    // Run the model multiple times
       costo = this.optimizador.minimize(() => {
         return <any>(this.calculaCosto(this.tensorEsperado, this.model(this.tensorEntrada)));
       }, regresaCosto);
@@ -88,11 +88,13 @@ export class Clase1Component implements OnInit {
   }
 
 
+  model(inputTensor: tf.Tensor2D) {
 
-  model(xs: tf.Tensor2D) {
+    // Merge each of the layers to get the new value
+
     const hiddenLayer = tf.tidy(() => {
       // pesos, bias y función RELU (Rectified linear unit )
-      return xs.matMul(this.pesosCapaUno).add(this.biasCapaUno).relu();
+      return inputTensor.matMul(this.pesosCapaUno).add(this.biasCapaUno).relu();
     });
     // pesos, bias y función Sigmoide
     let retmodel = hiddenLayer.matMul(this.pesosCapaDos).add(this.biasCapaDos).sigmoid();
