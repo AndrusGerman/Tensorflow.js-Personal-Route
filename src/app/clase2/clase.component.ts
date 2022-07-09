@@ -18,7 +18,7 @@ export class Clase1Component implements OnInit {
 
 
 
-  private async getData() {
+  private async getData(): Promise<any[]> {
     const datosCasasR = await fetch('https://raw.githubusercontent.com/celismx/tensorflowjs.json/master/datos.json');
 
     const datosCasas = await datosCasasR.json();
@@ -73,7 +73,6 @@ export class Clase1Component implements OnInit {
 
   private createModel() {
     const model = tf.sequential();
-
 
     model.add(tf.layers.dense({ inputShape: [1], units: 1, useBias: true }))
     model.add(tf.layers.dense({ units: 1, useBias: true, }))
@@ -169,10 +168,70 @@ export class Clase1Component implements OnInit {
   public saveModel() {
     this.model?.save('downloads://myModelTraining')
   }
+
+  /**
+   * load_save_models
+   */
+  public async load_save_models() {
+    const uploadJSONINPUT: HTMLInputElement = <any>(document.getElementById('upload-json'));
+    const uploadWIGHTSINPUT: HTMLInputElement = <any>(document.getElementById('upload-wights'));
+
+
+    if (!uploadJSONINPUT.files || !uploadWIGHTSINPUT.files) {
+      console.log('One input contain black file');
+      return;
+    }
+
+    await tf.loadLayersModel(tf.io.browserFiles([
+      uploadJSONINPUT.files[0], uploadWIGHTSINPUT.files[0]
+    ]));
+    console.log('Model is load');
+  }
+
+
+
+  /**
+   * viewInference
+   */
+  public async viewInference() {
+    const data = await this.getData();
+    const tensorData = this.convertDataToTensors(data);
+
+    const { InputMax, InputMin, LabelsMax, LabelsMin } = tensorData;
+
+
+    const [xs, preds] = tf.tidy(() => {
+      const xs = tf.linspace(0, 1, 100);
+      const preds = this.model?.predict(xs.reshape([100, 1]));
+
+      // Inverte normalized
+      const desnormX = xs.mul(InputMax.sub(InputMin)).add(InputMin);
+      const desnormY = xs.mul(LabelsMax.sub(LabelsMin)).add(LabelsMin);
+      return [desnormX.dataSync(), desnormY.dataSync()];
+
+    });
+
+
+
+    const pointsPrediction = Array.from(xs).map((val: any, i: number) => {
+      return { x: val, y: preds[i] };
+    })
+
+
+
+    const originalPoints = data.map(d => ({ x: d.cuartos, y: d.precio }));
+
+
+
+    tfvis.render.scatterplot({ name: 'Predicciones vs Originales' },
+      { values: [originalPoints, pointsPrediction], series: ['originales', 'predicciones'] },
+      {
+        xLabel: 'Cuartos',
+        yLabel: 'Precio',
+        height: 300,
+      })
+
+  }
 }
 
 
-// tfvis.show.fitCallbacks({ name: 'Training performace', },
-//         ['loss', 'mse'],// metricas de perdida | metricas de error estandar
-//         { height: 200, callbacks: ['onEpochEnd'] }
-//       )

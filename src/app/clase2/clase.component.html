@@ -9,4 +9,15 @@
 
 
 <button *ngIf="!isTraining" (click)="training()">Entrenar</button>
-<button *ngIf="isTraining && !stopTraining" (click)="stopTraining=true">Stop Training</button>
+<button *ngIf="isTraining && !stopTraining" (click)="stopTraining=true">Stop Training</button><br>
+<button (click)="viewInference()">View Inference</button>
+
+
+<br>
+
+
+
+<p>Load save models</p>
+JSON<input type="file" placeholder="JSON" id="upload-json"><br>
+wights<input type="file" placeholder="wights" id="upload-wights"><br>
+<button (click)="load_save_models()">Load save models</button>
