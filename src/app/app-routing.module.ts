@@ -24,6 +24,11 @@ const routes: Routes = [
     path: '4',
     loadChildren: () => import('./clase4/clase.module').then(m => m.ClaseModule),
   }
+  ,
+  {
+    path: '5',
+    loadChildren: () => import('./clase5/clase.module').then(m => m.ClaseModule),
+  }
 ];
 
 @NgModule({
