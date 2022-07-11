@@ -17,18 +17,23 @@ interface Classify {
   styleUrls: ['./clase.component.css']
 })
 export class ClaseComponent implements OnInit {
-
-
+  public DBElements:any = {
+    '1': 'Elemento 1',
+    '2': 'Elemento 2',
+    '3': 'Elemento 3',
+    '4': 'Elemento 4',
+  }
   public description: Classify[] = new (Array);
   public base64Img: string = '';
   private mobileNet?: mobilenet.MobileNet;
   private webcamElement?: HTMLVideoElement;
   private webcam?: any;
+  private classifier = knn.create();
 
 
 
   async ngOnInit() {
-    this.app();
+    await this.app();
     await this.initWebcam();
     this.classificationWhile()
   }
@@ -41,18 +46,43 @@ export class ClaseComponent implements OnInit {
   public pause = true;
   private async classificationWhile() {
     while (true) {
+      await new Promise(resolve => setTimeout(resolve, 500));
       if (this.pause) {
-        await new Promise(resolve => setTimeout(resolve, 500));
         continue;
       }
       // capture image
       const img = await this.webcam?.capture();
-      this.description = await <any>this.mobileNet?.classify(img);
+
+      const enc = await this.customPrediction(img);
+      // found custom image
+      if (enc) {
+
+      }
+      // not found custom image
+      if (!enc) {
+        this.description = await <any>this.mobileNet?.classify(img);
+      }
+
+      // delete image
       img.dispose();
       await tf.nextFrame();
     }
   }
 
+
+  private async customPrediction(img: any) {
+    // find infer
+    const activation = (<any>this.mobileNet).infer(img, "conv_preds");
+    try {
+      // compare infer by customs classifier
+      const result2 = await this.classifier.predictClass(activation);
+      let name = this.DBElements[result2.label]
+      this.description = [{className:name,probability:1}]
+      return true;
+    } catch (err) {
+      return false;
+    }
+  }
 
   private async initWebcam() {
     this.webcamElement = <any>document.getElementById('webcam');
@@ -74,8 +104,13 @@ export class ClaseComponent implements OnInit {
   /**
    * addExample
    */
-  public addExample(example: number) {
-
+  public async addExample(exampleID: number) {
+    console.log('add example');
+    const img = await this.webcam.capture();
+    // create new infer
+    const activation = this.mobileNet?.infer(img, true);
+    this.classifier.addExample(<any>activation, exampleID);
+    img.dispose();
   }
 }
 
