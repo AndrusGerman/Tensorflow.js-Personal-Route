@@ -1,0 +1,5 @@
+Artificial intelligence -> machine learning -> Neural networks -> Deep Learning 
+
+
+Neural networks  = Superficial, nos permite crear nuestros propios modelos rapidamente
+Deep Learning = mas para investigacion, complejo y normalmente analiza sus propios datos
