@@ -17,7 +17,7 @@ interface Classify {
   styleUrls: ['./clase.component.css']
 })
 export class ClaseComponent implements OnInit {
-  public DBElements:any = {
+  public DBElements: any = {
     '1': 'Elemento 1',
     '2': 'Elemento 2',
     '3': 'Elemento 3',
@@ -79,9 +79,9 @@ export class ClaseComponent implements OnInit {
 
       // find id result
       let name = this.DBElements[result2.label];
-      
+
       // print result
-      this.description = [{className:name,probability:1}]
+      this.description = [{ className: name, probability: 1 }]
       return true;
     } catch (err) {
       return false;
@@ -115,6 +115,35 @@ export class ClaseComponent implements OnInit {
     const activation = this.mobileNet?.infer(img, true);
     this.classifier.addExample(<any>activation, exampleID);
     img.dispose();
+  }
+
+
+  /**
+   * save
+   */
+  public save() {
+    let dataset = this.classifier.getClassifierDataset();
+    let datasetObj: any = new (Object);
+    Object.keys(dataset).forEach((key) => {
+      let data = dataset[key].dataSync();
+      datasetObj[key] = Array.from(data);
+    });
+
+    localStorage.setItem("myCustomData", JSON.stringify(datasetObj));
+  }
+
+
+  /**
+ * load
+ */
+  public load() {
+    let dataset = localStorage.getItem("myCustomData")
+    let tensorObj = JSON.parse(<any>dataset)
+    //covert back to tensor
+    Object.keys(tensorObj).forEach((key) => {
+      tensorObj[key] = tf.tensor(tensorObj[key], [tensorObj[key].length / 1000, 1000])
+    })
+    this.classifier.setClassifierDataset(tensorObj);
   }
 }
 
