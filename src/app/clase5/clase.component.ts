@@ -136,8 +136,3 @@ export class ClaseComponent implements OnInit {
     this.classifier.setClassifierDataset( Object.fromEntries( arr.map(([label, data, shape])=>[label, tf.tensor(data, <any>shape)]) ) );
   }
 }
-
-
-
-
-

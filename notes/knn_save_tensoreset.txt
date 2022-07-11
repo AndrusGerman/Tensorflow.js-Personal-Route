@@ -1,0 +1,22 @@
+//     import Tensorset from "tensorset/lib/Tensorset"; save models
+// (async () => {
+//   // Create a classifier, add your examples
+//   const originalClassifier = knnClassifier.create();
+//   originalClassifier.addExample(/*Some Example*/);
+
+//   // Stringify the dataset
+//   let dataset = Tensorset.stringify(originalClassifier.getClassifierDataset());
+  
+//   // Save the dataset
+//   await fs.writeFile(/*File Name*/, dataset);
+  
+//   // Load the dataset
+//   dataset = await fs.readFile(/*File Name*/);
+
+//   // Parse the dataset
+//   dataset = await Tensorset.parse(dataset);
+
+//   // Add to a new classifier
+//   const newClassifier = knnClassifier.create();
+//   newClassifier.setClassifierDataset(dataset);
+// })();
