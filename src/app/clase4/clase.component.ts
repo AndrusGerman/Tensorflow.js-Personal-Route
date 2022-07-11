@@ -40,8 +40,8 @@ export class ClaseComponent implements OnInit {
   public pause = true;
   private async classificationWhile() {
     while (true) {
+      await new Promise(resolve => setTimeout(resolve, 500));
       if (this.pause) {
-        await new Promise(resolve => setTimeout(resolve, 500));
         continue;
       }
       // capture image

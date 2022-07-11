@@ -71,12 +71,16 @@ export class ClaseComponent implements OnInit {
 
 
   private async customPrediction(img: any) {
-    // find infer
+    // get infer
     const activation = (<any>this.mobileNet).infer(img, "conv_preds");
     try {
       // compare infer by customs classifier
       const result2 = await this.classifier.predictClass(activation);
-      let name = this.DBElements[result2.label]
+
+      // find id result
+      let name = this.DBElements[result2.label];
+      
+      // print result
       this.description = [{className:name,probability:1}]
       return true;
     } catch (err) {
