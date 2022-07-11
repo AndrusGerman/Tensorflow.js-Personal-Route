@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import * as tf from '@tensorflow/tfjs';
 import '@tensorflow/tfjs-backend-webgl';
 import * as mobilenet from '@tensorflow-models/mobilenet';
+import * as knn from '@tensorflow-models/knn-classifier';
 
 
 interface Classify {
