@@ -3,7 +3,7 @@
 
 
 
-<img (load)="onloadImg()" [src]="base64Img" id="img" crossorigin width="200" height="200" >
+<img (click)="randomImg()" (load)="onloadImg()" [src]="base64Img" id="img" crossorigin width="200" height="200" >
 
 <input id="imgInput" (change)="changeImg()" type="file">
 
