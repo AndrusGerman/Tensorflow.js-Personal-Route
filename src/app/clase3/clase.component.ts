@@ -82,7 +82,7 @@ export class ClaseComponent implements OnInit {
    * randomImg
    */
   public randomImg() {
-    this.base64Img = 'https://picsum.photos/200/300?random='+Math.random();
+    this.base64Img = 'https://picsum.photos/200/200?random='+Math.random();
   }
 }
 
