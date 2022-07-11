@@ -122,14 +122,8 @@ export class ClaseComponent implements OnInit {
    * save
    */
   public save() {
-    let dataset = this.classifier.getClassifierDataset();
-    let datasetObj: any = new (Object);
-    Object.keys(dataset).forEach((key) => {
-      let data = dataset[key].dataSync();
-      datasetObj[key] = Array.from(data);
-    });
-
-    localStorage.setItem("myCustomData", JSON.stringify(datasetObj));
+    let str = JSON.stringify(Object.entries(this.classifier.getClassifierDataset()).map(([label, data]) => [label, Array.from(data.dataSync()), data.shape]));
+    localStorage.setItem("myCustomData", str);
   }
 
 
@@ -138,14 +132,12 @@ export class ClaseComponent implements OnInit {
  */
   public load() {
     let dataset = localStorage.getItem("myCustomData")
-    let tensorObj = JSON.parse(<any>dataset)
-    //covert back to tensor
-    Object.keys(tensorObj).forEach((key) => {
-      tensorObj[key] = tf.tensor(tensorObj[key], [tensorObj[key].length / 1000, 1000])
-    })
-    this.classifier.setClassifierDataset(tensorObj);
+    let arr:[string, number[], number[]][] = JSON.parse(<any>dataset);    
+    this.classifier.setClassifierDataset( Object.fromEntries( arr.map(([label, data, shape])=>[label, tf.tensor(data, <any>shape)]) ) );
   }
 }
+
+
 
 
 
