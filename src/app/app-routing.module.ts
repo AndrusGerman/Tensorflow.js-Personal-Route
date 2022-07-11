@@ -9,11 +9,16 @@ const routes: Routes = [
   },
   {
     path: '1',
-    loadChildren: () => import('./clase1/clase1.module').then(m => m.Clase1Module),
+    loadChildren: () => import('./clase1/clase1.module').then(m => m.ClaseModule),
   },
   {
     path: '2',
-    loadChildren: () => import('./clase2/clase.module').then(m => m.Clase2Module),
+    loadChildren: () => import('./clase2/clase.module').then(m => m.ClaseModule),
+  }
+  ,
+  {
+    path: '3',
+    loadChildren: () => import('./clase3/clase.module').then(m => m.ClaseModule),
   }
 ];
 

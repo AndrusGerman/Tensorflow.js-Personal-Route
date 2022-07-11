@@ -1,0 +1,25 @@
+<h2>Image clasification</h2>
+
+
+
+
+<img (load)="onloadImg()" [src]="base64Img" id="img" crossorigin width="200" height="200" >
+
+<input id="imgInput" (change)="changeImg()" type="file">
+
+
+
+
+<br>
+<div *ngFor="let item of description">
+    <br>
+    <h5>Element: </h5>
+    <p>className: {{item.className}}</p>
+    <p>probability: {{item.probability}}</p>
+
+</div>
+
+
+<!-- https://i.imgur.com/JlUvsxa.jpg -->
+
+<!-- <img src="https://i.imgur.com/JlUvsxa.jpg" id="img" crossorigin width="200" height="200" > -->

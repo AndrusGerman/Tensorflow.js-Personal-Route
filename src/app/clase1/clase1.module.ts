@@ -30,4 +30,4 @@ class Routing {}
     Routing,
   ]
 })
-export class Clase1Module { }
+export class ClaseModule { }

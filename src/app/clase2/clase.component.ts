@@ -8,7 +8,7 @@ import * as tfvis from '@tensorflow/tfjs-vis';
   templateUrl: './clase.component.html',
   styleUrls: ['./clase.component.css']
 })
-export class Clase1Component implements OnInit {
+export class ClaseComponent implements OnInit {
 
   ngOnInit(): void {
     this.run()
