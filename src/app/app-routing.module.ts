@@ -5,7 +5,7 @@ const routes: Routes = [
   {
     path: '',
     redirectTo: '/1',
-    pathMatch:'full'
+    pathMatch: 'full'
   },
   {
     path: '1',
@@ -19,6 +19,10 @@ const routes: Routes = [
   {
     path: '3',
     loadChildren: () => import('./clase3/clase.module').then(m => m.ClaseModule),
+  },
+  {
+    path: '4',
+    loadChildren: () => import('./clase4/clase.module').then(m => m.ClaseModule),
   }
 ];
 
