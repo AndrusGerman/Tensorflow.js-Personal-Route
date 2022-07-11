@@ -50,6 +50,7 @@ export class ClaseComponent implements OnInit {
 
   private async app() {
     this.mobileNet = await mobilenet.load();
+    this.randomImg();
   }
 
 
